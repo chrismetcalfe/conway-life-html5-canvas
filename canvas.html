@@ -1,0 +1,146 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+      #myCanvas {
+        border: 1px solid #9C9898;
+				opacity: 0.2;
+      }
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+    </style>
+    <script>
+			
+
+      window.onload = function() {
+        var canvas = document.getElementById('myCanvas');
+        var context = canvas.getContext('2d');
+				var cells_x = 76;
+				var cells_y = 35;
+				var cell_height = 25;
+				var cell_width = 25;
+
+				var boardGrid = new Array(cells_x);
+  			for(var i = 0; i < cells_x; i++){
+					boardGrid[i] = new Array(cells_y);
+  				for(var j = 0; j < cells_y; j++){
+						if(Math.random() > 0.5){
+							boardGrid[i][j] = 1;
+						}
+						else {
+							boardGrid[i][j] = 0;
+						}
+					}
+				}
+				drawGrid(boardGrid.slice());
+				setInterval(function(){
+					boardGrid = nextGeneration(boardGrid.slice());
+					drawGrid(boardGrid.slice());
+				}, 100);
+
+				function nextGeneration(boardGrid){
+				  var newGrid = new Array(cells_x);
+    			for(var i = 0; i < cells_x; i++){
+  					newGrid[i] = new Array(cells_y);
+    				for(var j = 0; j < cells_y; j++){
+  						if(stayAlive(i,j, boardGrid)){
+								newGrid[i][j] = boardGrid[i][j] + 1;	
+							}
+							else {
+								newGrid[i][j] = 0;
+							}
+  					}
+  				}
+					return newGrid.slice();
+				}
+
+				function stayAlive(x, y){
+					var neighbors = 0;
+					
+					if(x > 0 && y > 0 &&boardGrid[x-1][y-1] > 0) {
+						neighbors++;
+					}
+					if(y > 0 &&boardGrid[x][y-1] > 0) {
+						neighbors++;
+					}
+					if(x < cells_x - 1 && y > 0 && boardGrid[x+1][y-1] > 0) {
+						neighbors++;
+					}
+					if(x > 0 && boardGrid[x-1][y] > 0) {
+						neighbors++;
+					}
+					if(x < cells_x - 1 && boardGrid[x+1][y] > 0) {
+						neighbors++;
+					}
+					if(x > 0 && y < cells_y - 1 && boardGrid[x-1][y+1] > 0) {
+						neighbors++;
+					}
+					if(y < cells_y - 1 && boardGrid[x][y+1] > 0) {
+						neighbors++;
+					}
+					if(x < cells_x - 1 && y < cells_y - 1 && boardGrid[x+1][y+1] > 0) {
+						neighbors++;
+					}
+  				if ((boardGrid[x][y] > 0 && (neighbors == 2 || neighbors == 3)) || (boardGrid[x][y] == 0 && neighbors == 3)){
+						return true;
+					}
+					return false;
+				}
+
+				function drawGrid(boardGrid){
+    			for(var i = 0; i < cells_x; i++){
+    				for(var j = 0; j < cells_y; j++){
+  					  if (boardGrid[i][j] > 0){
+								drawCell(i,j,boardGrid[i][j]);
+  						}
+	  					else if(boardGrid[i][j] == 0){
+								clearCell(i,j);
+  						}						
+    				}
+    			}
+				}
+
+				function drawCell(x, y, count) {
+					context.beginPath();
+ 					context.rect(x * cell_width, y * cell_height, cell_width, cell_height, false);
+					if(count == 1){
+	 					context.fillStyle = "#cccccc";
+					}
+					else if (count == 2){
+	 					context.fillStyle = "blue";
+					}
+					else if (count == 3){
+	 					context.fillStyle = "green";
+					}
+					else {
+	 					context.fillStyle = "red";
+					}
+ 					context.fill();
+					context.strokeStyle = "white";
+					context.lineWidth = 2;
+ 					context.strokeRect(x * cell_width + 2, y * cell_height + 2 , cell_width - 4, cell_height - 4, false);
+				}
+				function clearCell(x, y) {
+					context.beginPath();
+ 					context.rect(x * cell_width, y * cell_height, cell_width, cell_height, false);
+ 					context.fillStyle = "#ffffff";
+ 					context.fill();
+				}
+				function clearCanvas(){
+				  context.beginPath();
+					context.rect(0, 0, canvas.width, canvas.height, false);
+					context.fillStyle = "white";
+					context.fill();
+				}
+
+      };
+
+    </script>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="1900px" height="880px"></canvas>
+  </body>
+</html>
+
