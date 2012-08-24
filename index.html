@@ -163,16 +163,17 @@
 					}
 			  }); 
 
-			  $("#canvas").click(function(e){
+			  $("#canvas").bind("click", function(e){
 					var mouse_x = e.pageX - this.offsetLeft;
 					var mouse_y = e.pageY - this.offsetTop;
 					var cell_x = parseInt(mouse_x / cell_width);
 					var cell_y = parseInt(mouse_y / cell_height);
-					if(e.which == 1 && boardGrid[cell_x][cell_y] == 0){
+					if(boardGrid[cell_x][cell_y] == 0){
 						boardGrid[cell_x][cell_y] = 1;
 						drawCell(cell_x,cell_y,boardGrid[cell_x][cell_y]);
 					}
-					else if(e.which == 3 && boardGrid[cell_x][cell_y] > 0){
+					else if(boardGrid[cell_x][cell_y] != 0){
+						boardGrid[cell_x][cell_y] = 0;
 						clearCell(cell_x,cell_y);
 					}
 			  }); 			
