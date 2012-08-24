@@ -34,7 +34,9 @@
 			}
 			button {
 				font-size: 0.8em;
-				width: 80px;
+				width: 58px;
+				margin-right: 0px;
+				margin-left: 0px;
 			}
 			#generations {
 				margin-top: 10px;
@@ -46,7 +48,7 @@
     <script>
       $(document).ready(function() {
 				// Get the canvas and 2d context
-        var canvas = document.getElementById('myCanvas');
+        var canvas = document.getElementById('canvas');
         var context = canvas.getContext('2d');
 
 				// Set some defaults
@@ -55,6 +57,10 @@
 				var interval_id;
 				var initial_fill = 0.25;
 				var generationCount = 0;
+
+				// Are we trying to draw on canvas?
+				var drawing = false;
+				var erasing = false;
 
 				// Set the y-dimension to 40 cells, then use
 				// the window width to calculate number of x-cells
@@ -92,10 +98,23 @@
 
 				// Bind the buttons
 				$("button").button();
-				$("#resetButton").click(function(event){ generationCount = 0; boardGrid = fillGrid(); drawGrid(boardGrid.slice());});
+				$("#fillButton").click(function(event){
+					generationCount = 0;
+					boardGrid = fillGrid();
+					drawGrid(boardGrid.slice());
+				});
+				$("#clearButton").click(function(event){
+					boardGrid = emptyGrid();
+					generationCount = 0;
+					drawGrid(boardGrid.slice());
+					clearInterval(interval_id);
+					running = false;
+					$("#pauseButton").text("Run");
+				});
 				$("#pauseButton").click(function(event){ 
 					if(running){
 						clearInterval(interval_id);
+						running = false;
 						$(this).text("Run");
 					}
 					else {
@@ -117,6 +136,46 @@
 						$(this).removeClass("hover");
 					}
 				);
+
+				// Make the controls draggable
+				$("#controls").draggable({ containment: "window" });
+
+				// Bind the click and drag drawing
+				$(document).bind("contextmenu", function(e){ return false; });
+				$("#canvas").mousedown(function(event){
+					if(event.which == 1){drawing = true;}
+					else if(event.which == 3){erasing = true;}
+				});
+				$("#canvas").mouseout(function(event){drawing = false; erasing = false;});
+				$("#canvas").mouseup(function(event){drawing = false; erasing = false;});
+			  $("#canvas").mousemove(function(e){
+					var mouse_x = e.pageX - this.offsetLeft;
+					var mouse_y = e.pageY - this.offsetTop;
+					var cell_x = parseInt(mouse_x / cell_width);
+					var cell_y = parseInt(mouse_y / cell_height);
+			    $('#mouse').html(cell_x +', '+ cell_y);
+					if(drawing && boardGrid[cell_x][cell_y] == 0){
+						boardGrid[cell_x][cell_y] = 1;
+						drawCell(cell_x,cell_y,boardGrid[cell_x][cell_y]);
+					}
+					else if (erasing && boardGrid[cell_x][cell_y] > 0){
+						clearCell(cell_x,cell_y);
+					}
+			  }); 
+
+			  $("#canvas").click(function(e){
+					var mouse_x = e.pageX - this.offsetLeft;
+					var mouse_y = e.pageY - this.offsetTop;
+					var cell_x = parseInt(mouse_x / cell_width);
+					var cell_y = parseInt(mouse_y / cell_height);
+					if(e.which == 1 && boardGrid[cell_x][cell_y] == 0){
+						boardGrid[cell_x][cell_y] = 1;
+						drawCell(cell_x,cell_y,boardGrid[cell_x][cell_y]);
+					}
+					else if(e.which == 3 && boardGrid[cell_x][cell_y] > 0){
+						clearCell(cell_x,cell_y);
+					}
+			  }); 			
 
 				function run(){
 					if(running){
@@ -144,6 +203,17 @@
   					}
   				}
 	  			return boardGrid.slice();
+				}
+
+				function emptyGrid(){
+	 				var boardGrid = new Array(cells_x);
+    			for(var i = 0; i < cells_x; i++){
+  					boardGrid[i] = new Array(cells_y);
+    				for(var j = 0; j < cells_y; j++){
+  						boardGrid[i][j] = 0;
+  					}
+  				}
+	  			return boardGrid.slice();				
 				}
 
 				// Calculate the next generation and return
@@ -206,6 +276,7 @@
 
 				// Draw the grid. Fairly self-explanatory.
 				function drawGrid(boardGrid){
+					$("#generationCount").text(generationCount);
     			for(var i = 0; i < cells_x; i++){
     				for(var j = 0; j < cells_y; j++){
   					  if (boardGrid[i][j] > 0){
@@ -256,11 +327,13 @@
 				<div id="slider"></div>
 				<button id="pauseButton">Pause</button>
 				<button id="nextButton">Next</button>
-				<button id="resetButton">Reset</button>
+				<button id="fillButton">Fill</button>
+				<button id="clearButton">Clear</button>
 				<div id="generations">Generations: <span id="generationCount"></span></div>
+				<div id="mouse"></div>
 			</div>
 		</div>
-    <canvas id="myCanvas"></canvas>
+    <canvas id="canvas"></canvas>
   </body>
 </html>
 
