@@ -4,8 +4,8 @@
 		<script src="http:////ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>	
     <style>
       #myCanvas {
-        border: 1px solid #9C9898;
 				opacity: 0.8;
+				margin: 0px;
       }
       body {
         margin: 0px;
@@ -21,15 +21,18 @@
         var canvas = document.getElementById('myCanvas');
         var context = canvas.getContext('2d');
 				var cells_y = 35;
-				var cell_height = parseInt($(window).height() / cells_y);
+				canvas.width = window.innerWidth - 8;
+        canvas.height = window.innerHeight - 8;
+
+				var cell_height = parseInt($(canvas).height() / cells_y);
 				var cell_width = cell_height;
-				var cells_x = parseInt($(window).width() / cell_width);
+				var cells_x = parseInt($(canvas).width() / cell_width);
 
 				var boardGrid = new Array(cells_x);
   			for(var i = 0; i < cells_x; i++){
 					boardGrid[i] = new Array(cells_y);
   				for(var j = 0; j < cells_y; j++){
-						if(Math.random() > 0.5){
+						if(Math.random() > 0.4){
 							boardGrid[i][j] = 1;
 						}
 						else {
@@ -42,6 +45,10 @@
 					boardGrid = nextGeneration(boardGrid.slice());
 					drawGrid(boardGrid.slice());
 				}, 100);
+
+				function resizeCanvas(){
+
+				}
 
 				function nextGeneration(boardGrid){
 				  var newGrid = new Array(cells_x);
@@ -138,7 +145,7 @@
       });
 
     </script>
-    <canvas id="myCanvas" width="1900px" height="880px"></canvas>
+    <canvas id="myCanvas"></canvas>
   </body>
 </html>
 
