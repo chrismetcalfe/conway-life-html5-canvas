@@ -36,7 +36,10 @@
 				font-size: 0.8em;
 				width: 80px;
 			}
-			
+			#generations {
+				margin-top: 10px;
+				text-align: center;
+			}			
     </style>
 	</head>
 	<body>
@@ -51,6 +54,7 @@
 				var interval = 250;
 				var interval_id;
 				var initial_fill = 0.25;
+				var generationCount = 0;
 
 				// Set the y-dimension to 40 cells, then use
 				// the window width to calculate number of x-cells
@@ -88,7 +92,7 @@
 
 				// Bind the buttons
 				$("button").button();
-				$("#resetButton").click(function(event){ boardGrid = fillGrid(); });
+				$("#resetButton").click(function(event){ generationCount = 0; boardGrid = fillGrid(); drawGrid(boardGrid.slice());});
 				$("#pauseButton").click(function(event){ 
 					if(running){
 						clearInterval(interval_id);
@@ -157,6 +161,8 @@
 							}
   					}
   				}
+					generationCount++;
+					$("#generationCount").text(generationCount);
 					return newGrid.slice();
 				}
 
@@ -251,6 +257,7 @@
 				<button id="pauseButton">Pause</button>
 				<button id="nextButton">Next</button>
 				<button id="resetButton">Reset</button>
+				<div id="generations">Generations: <span id="generationCount"></span></div>
 			</div>
 		</div>
     <canvas id="myCanvas"></canvas>
