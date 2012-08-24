@@ -2,16 +2,40 @@
 <html>
   <head>
 		<script src="http:////ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>	
+		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
+		<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/ui-lightness/jquery-ui.css" rel="stylesheet" type="text/css">
     <style>
-      #myCanvas {
-				opacity: 0.8;
-				margin: 0px;
-      }
       body {
         margin: 0px;
         padding: 0px;
 				background-color: #fff;
       }
+      #myCanvas {
+				opacity: 0.8;
+				margin: 0px;
+				z-index: 1;
+      }
+			#controls {
+				padding: 10px;
+				border: 1px solid #000;
+				float: left;
+				position:fixed;
+				background-color: #fff;
+				width: 250px;
+				z-index: 99;
+				opacity: 0.3;
+			}
+			#controls.hover {
+				opacity: 1;
+				background-color: rgba(255,255,255,0.95);
+			}
+			#slider {
+				margin: 10px;
+			}
+			button {
+				font-size: 0.8em;
+			}
+			
     </style>
 	</head>
 	<body>
@@ -39,27 +63,61 @@
 
 				// Setup 2d array and fill according to the fill
 				// we set above.
-				var boardGrid = new Array(cells_x);
-  			for(var i = 0; i < cells_x; i++){
-					boardGrid[i] = new Array(cells_y);
-  				for(var j = 0; j < cells_y; j++){
-						if(Math.random() > (1 - initial_fill)){
-							boardGrid[i][j] = 1;
-						}
-						else {
-							boardGrid[i][j] = 0;
-						}
-					}
-				}
+				boardGrid = fillGrid();
 
 				// Draw the initial grid
 				drawGrid(boardGrid.slice());
 
 				// Start the timer to triger the game of life
-				interval_id = setInterval(function(){
+				interval_id = setInterval(function(){ run() }, interval);
+
+				// Bind the slider
+				$("#slider").slider({
+					min: 0,
+					max: 1450,
+					value: 1250,
+					change: function(event, ui){
+						clearInterval(interval_id);
+						interval = 1500 - ui.value;
+						interval_id = setInterval(function(){ run() }, interval);
+					}
+				});
+
+				// Bind the reset button
+				$("#resetButton").button().click(function(event){ boardGrid = fillGrid(); });
+
+				// Make the controls more visible when hovered
+				$("#controls").hover(
+					// Hover In
+					function(event){
+						$(this).addClass("hover");
+					},
+					// Hover Out
+					function(event){
+						$(this).removeClass("hover");
+					}
+				);
+
+				function run(){
 					boardGrid = nextGeneration(boardGrid.slice());
 					drawGrid(boardGrid.slice());
-				}, interval);
+				}
+
+				function fillGrid(){
+  				var boardGrid = new Array(cells_x);
+    			for(var i = 0; i < cells_x; i++){
+  					boardGrid[i] = new Array(cells_y);
+    				for(var j = 0; j < cells_y; j++){
+  						if(Math.random() > (1 - initial_fill)){
+  							boardGrid[i][j] = 1;
+  						}
+  						else {
+  							boardGrid[i][j] = 0;
+  						}
+  					}
+  				}
+	  			return boardGrid.slice();
+				}
 
 				// Calculate the next generation and return
 				// 2d array.
@@ -163,6 +221,13 @@
 				}
       });
     </script>
+		<div id="controls">
+			<div id="interval">
+				<div>Generation Speed</div>
+				<div id="slider"></div>
+				<button id="resetButton">Reset</button>
+			</div>
+		</div>
     <canvas id="myCanvas"></canvas>
   </body>
 </html>
