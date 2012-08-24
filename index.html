@@ -80,7 +80,9 @@
 					change: function(event, ui){
 						clearInterval(interval_id);
 						interval = 1500 - ui.value;
-						interval_id = setInterval(function(){ run() }, interval);
+						if(running){
+							interval_id = setInterval(function(){ run() }, interval);
+						}
 					}
 				});
 
