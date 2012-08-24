@@ -86,7 +86,17 @@
 				// Bind the buttons
 				$("button").button();
 				$("#resetButton").click(function(event){ boardGrid = fillGrid(); });
-				$("#pauseButton").click(function(event){ running = !running; });
+				$("#pauseButton").click(function(event){ 
+					if(running){
+						clearInterval(interval_id);
+						$(this).text("Run");
+					}
+					else {
+						interval_id = setInterval(function(){ run() }, interval);
+						$(this).text("Pause");
+					}
+					running = !running;
+				});
 				$("#nextButton").click(function(event){ runOnce(); });
 
 				// Make the controls more visible when hovered
