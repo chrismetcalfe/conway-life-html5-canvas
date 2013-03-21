@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=640" />
+
+    <link rel="stylesheet" href="stylesheets/core.css" media="screen"/>
+    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)"/>
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
+
+    <script type="text/javascript" src="javascripts/modernizr.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('#main_content').headsmart()
+      })
+    </script>
+    <title>Conway's Game Of Life by chrismetcalfe</title>
+  </head>
+
+  <body>
+    <a id="forkme_banner" href="https://github.com/chrismetcalfe/conway-life-html5-canvas">View on GitHub</a>
+    <div class="shell">
+
+      <header>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <h1>Conway's Game Of Life</h1>
+            <h2>A demonstration of cellular automaton in HTML5.</h2>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+      </header>
+
+      <section id="downloads">
+        <span class="inner">
+          <a href="https://github.com/chrismetcalfe/conway-life-html5-canvas/zipball/master" class="zip"><em>download</em> .ZIP</a><a href="https://github.com/chrismetcalfe/conway-life-html5-canvas/tarball/master" class="tgz"><em>download</em> .TGZ</a>
+        </span>
+      </section>
+
+
+      <span class="banner-fix"></span>
+
+
+      <section id="main_content">
+        <h1>Conway's Game of Life</h1>
+
+<p>Conway's game of life is a famous computer science problem first introduced by John Conway in 1970. Life is a “zero­player” game that consists of an 'n' by 'm' checkerboard or grid, with each cell having the possibility of being on or off. The next state of each cell is decided by counting the number of neighboring cells that are on or off (see Rules). More information can be found on <a href="http://en.wikipedia.org/wiki/Conway's_Game_of_Life">Wikipedia</a>.</p>
+
+<h2>Canvas</h2>
+
+<p>This code served as a way for me to learn and experiment with the canvas element that is part of HTML5. My intention is that this code is simple and easy to read such that other people may learn from it. If you have questions or feel you can improve anythying feel free to fork this repo or drop me a line.</p>
+
+<h2>Rules</h2>
+
+<p>1.  Neighbors: The cells directly north, south, east and west of the current cell.</p>
+
+<p>2.  Overcrowding: If a living cell has more than three living neighbors it will die during the transition to the next generation.</p>
+
+<p>3.  Loneliness: If a living cell has less than two living neighboring cells it will die during the transition to the next generation.</p>
+
+<p>4.  Resurrection: If a dead cell has more than three living neighbors it will come to live during the transition to the next generation. </p>
+      </section>
+
+      <footer>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <p>this project by <a href="https://github.com/chrismetcalfe">chrismetcalfe</a> can be found on <a href="https://github.com/chrismetcalfe/conway-life-html5-canvas">GitHub</a></p>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+        <p>Generated with <a href="http://pages.github.com">GitHub Pages</a> using Merlot</p>
+        <span class="octocat"></span>
+      </footer>
+
+    </div>
+
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-39514502-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
