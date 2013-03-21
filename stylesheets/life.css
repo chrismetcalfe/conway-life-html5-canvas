@@ -1,0 +1,38 @@
+#canvas {
+  width: 633px;
+  height: 400px;
+  border: 1px solid black;
+  margin-right: 20px;
+}
+
+#controls {
+	float: left;
+	background-color: #fff;
+	width: 633px;
+}
+
+#controls > .left {
+  width: 312px;
+  float: left;
+}
+
+#controls > .right {
+  width: 316px;
+  float: right;
+}
+
+#slider {
+	margin: 5px;
+}
+
+button {
+	font-size: 0.8em;
+	width: 75px;
+	margin-right: 0px;
+	margin-left: 0px;
+}
+
+#generations {
+	margin-top: 10px;
+	text-align: center;
+}	
