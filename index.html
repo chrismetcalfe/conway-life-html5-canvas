@@ -42,13 +42,21 @@
         <article class="markdown-body">
           <h1>Conway's Game of Life</h1>
 
-<p>Conway's game of life is a famous computer science problem first introduced by John Conway in 1970. Life is a “zero player” game that consists of an 'n' by 'm' checkerboard or grid, with each cell having the possibility of being on or off. The next state of each cell is decided by counting the number of neighboring cells that are on or off (see Rules). More information can be found on <a href="http://en.wikipedia.org/wiki/Conway's_Game_of_Life">Wikipedia</a>.</p>
+          <p>Conway's game of life is a famous computer science problem first introduced by John Conway in 1970. Life is a “zero player” game that consists of an 'n' by 'm' checkerboard or grid, with each cell having the possibility of being on or off. The next state of each cell is decided by counting the number of neighboring cells that are on or off (see Rules). More information can be found on <a href="http://en.wikipedia.org/wiki/Conway's_Game_of_Life">Wikipedia</a>.</p>
+
+          <h2>Algorithm</h2>
+
+          <p>This code uses two arrays to store state for the current generation and the following generation. The <code>nextGeneration()</code> function iterates over each index on the array; it calls <code>stayAlive()</code> which checks the neighbors of each cell and returns value for the next state.</p>
+
+          <p>There are literally hundreds of algorithms for Conway's Game of Life ranging from the most simple (used in tihs project) to very complex (see <a href="http://en.wikipedia.org/wiki/Hashlife">Hashlife</a>). If you're interested in learning about optimization of this algorithm I highly suggest started with Chapters 17 and 18 of <a href="http://www.gamedev.net/page/resources/_/technical/graphics-programming-and-theory/graphics-programming-black-book-r1698">Michael Abrash's classic Graphics Programming Black Book </a> which is available for free.
 
 <h2>Canvas</h2>
 
-<p>This code served as a way for me to learn and experiment with the canvas element that is part of HTML5. My intention is that this code is simple and easy to read such that other people may learn from it. If you have questions or feel you can improve anythying feel free to fork this repo or drop me a line.</p>
+<p>Canvas was originally created at Apple for use in Dashboard but it's now part of the HTML5 standard. Canvas is a convenient way to use javascript for drawing things like graphs and games. Further reading available at <a href="http://diveintohtml5.info/">Dive Int HTML5</a> which is also available for free.
+
 
 <h2>Rules</h2>
+<p> These are the rules which determine if a cell dies or continues on to the next generation.
 
 <p>1.  Neighbors: The cells directly north, south, east and west of the current cell.</p>
 
