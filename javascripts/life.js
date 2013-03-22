@@ -26,7 +26,7 @@ $(document).ready(function() {
 
 	// Setup 2d array and fill according to the fill
 	// we set above.
-	boardGrid = fillGrid();
+	var boardGrid = fillGrid();
 
 	// Draw the initial grid
 	drawGrid(boardGrid.slice());
@@ -274,5 +274,6 @@ $(document).ready(function() {
 	// Used to clear the canvas when a cell dies
 	function clearCell(x, y) {
 		context.clearRect(x * cell_width, y * cell_height, cell_width, cell_height, false);
+    boardGrid[x][y] = 0;
 	}
 });
